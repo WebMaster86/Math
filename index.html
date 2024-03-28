@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Juego de Matemáticas</title>
+    <style>
+        /* Aquí va todo tu CSS */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('Matematicas.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Continúa incluyendo el resto de tu CSS */
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para resaltar el contenido */
+            background-size: 100% 100%; /* Ajusta el tamaño de la imagen al 100% de la anchura y altura del contenedor */
+            background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+            padding: 20px; /* Reducir el padding para cambiarel tamaño del contenedor */
+            border-radius: 20px; /* Reducir el radio de borde */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            filter: drop-shadow(10px 5px 2px #4444dd);
+        }
+        
+        /* Diseño responsive */
+        
+        /* Hacer que el contenedor de autenticación se ajuste al ancho de la pantalla */
+        #auth-container {
+            max-width: 400px; /* Ancho máximo del contenedor */
+            margin-left: auto; /* Centrar el contenedor horizontalmente */
+            margin-right: auto; 
+        }
+        
+        /* Ajustar el tamaño de los formularios de inicio de sesión y registro */
+        #login-form, #register-form {
+            width: 100%; /* Hacer que el formulario ocupe todo el ancho disponible */
+            margin-top: 10px;
+        }
+        
+        /* Ajustar el tamaño de los campos de entrada en los formularios */
+        input[type="text"], input[type="password"] {
+            margin: 5px 0;
+            padding: 8px;
+            width: 100px; /* Hacer que los campos de entrada ocupen todo el ancho del formulario */
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Ajustar el tamaño de los campos de entrada en los formularios */
+        input[type="text"], input[type="password"] {
+            width: 50%; /* Hacer que los campos de entrada ocupen todo el ancho del formulario */
+        }
+        
+        /* Hacer que el contenedor del juego se ajuste al ancho de la pantalla */
+        #game-container {
+            max-width: 800px; /* Ancho máximo del contenedor */
+            margin-left: auto; /* Centrar el contenedor horizontalmente */
+            margin-right: auto;
+        }
+        
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #3498db;
+        }
+        
+        h1 {
+            font-size: 2em; /* Cambiar el tamaño del titulo */
+        }
+        
+        button {
+            padding: 5%; /* Cambiar el tamaño del padding de los botones */
+            margin-top: 8%; /* Cambiar el espacio entre los botones */
+            cursor: pointer;
+            border: 2px solid #000; /* Cambia el color del borde según tus preferencias */
+            border-radius: 5px; /* Añade esquinas redondeadas si lo deseas */
+            font-weight: bold; /* Hace el texto del botón más grueso */
+            background-color: #3498db; /* Cambia el color de fondo según tus preferencias */
+            color: #fff; /* Cambia el color del texto del botón a blanco o un contraste adecuado */
+            font-size: 1em; /* Cambiar el tamaño del texto de los botones */
+        }
+        
+        button:hover {
+            background-color: #297fb8; /* Cambia el color al pasar el ratón sobre el botón */
+        }
+        
+        button:focus, input:focus {
+            outline: 2px solid #3498db; /* Añade un contorno cuando el elemento esté enfocado */
+        }
+        
+        
+        #answer {
+            width: 200px /* Cambiar el ancho del campo de respuesta */
+            padding 8px; /* Cambiar el padding del campo de respuesta */
+            font-size: 1em; /* Cambiar el tamaño del texto del campo de respuesta */
+        }
+        
+        /* Para hacer los emojis más grandes, aumentamos el tamaño de la fuente en #result-message */
+        #result-message {
+            max-width: 200px; /* Ancho máximo del mensaje */
+            margin: 0 auto; 
+        }
+        
+        /* Hacemos que el diseño sea más responsivo */
+        @media screen and (max-width: 1200px) {
+            .container, #auth-container {
+                max-width: 90%; /* Hacer el contenedor más ancho dispositivos pequeños */
+            }
+        
+            button {
+                padding: 10px; /* Aumentar el padding para botones más grandes en dispositivos pequeños */
+                font-size: 1.5em; /* Aumentar el tamaño del texto para mejorar la legibilidad */
+                margin-top: 5%; /* Reducir el espacio entre botones para dispositivos pequeños */
+            }
+        
+            #answer {
+                width: 100% /* Ajustar el ancho del input para que se adapte al contenedor */
+            }
+        
+            h1 {
+                font-size: 1.5em; /* Ajustar el tamaño del titulo para dispositivos más pequeños */
+            }
+        }
+        
+        /* Agregar estilos para los botones de usuario y contraseña */
+        #login-form button,
+        #register-form button {
+            color: #fff; /* Cambia el color del texto a blanco */
+            font-size: 1em; /* Cambia el tamaño del texto */
+            padding: 10px 20px; /* Cambia el padding para ajustar el tamaño */
+            border: none; /* Elimina el borde */
+            border-radius: 5px; /* Esquinas redondeadas */
+            cursor: pointer; /* Cambia el cursor a pointer */
+            margin-top: 20px; /* Ajustar el espacio cuperior */
+        }
+        
+        #login-form button:hover,
+        #register-form button:hover {
+            background-color: #c0392b; /* Cambia el color de fondo al pasar el raton */
+        }
+        
+        /* Ajustar el tamaño de los botones de números */
+        #number-buttons button {
+            width: 20%; /* Hacer que los botones de números ocupen el 30% del ancho del contenedor */
+            margin: 5px; /* Agregar un pequeño margen entre los botones */
+        }
+        
+        /* CSS agregado para los cambios solicitados */
+        
+        .answer-container {
+            display: flex;
+            align-items: center; /* Centra verticalmente los elementos */
+            margin-bottom: 10px; /* Espacio adicional abajo */
+        }
+        
+        .answer-container input[type="text"] {
+            width: 150px; /* Reducir el ancho del campo de respuesta */
+            margin: 10px; /* Espacio entre los elementos respuesta y verificar */
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Espacio entre los botones */
+            margin-top: 10px; /* Espacio adicional arriba */
+        }
+        
+        .button-container button {
+            width: calc(50% - 5px); /* Ancho del 50% menos el margen */
+            margin: 0; /* Eliminar el margen */
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="auth-container">
+        <h2>Iniciar Sesión / Registrarse</h2>
+        <form id="login-form">
+            <input type="text" id="login-username" placeholder="Nombre de usuario" required>
+            <input type="password" id="login-password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <form id="register-form">
+            <input type="text" id="register-username" placeholder="Nombre de usuario" required>
+            <input type="password" id="register-password" placeholder="Contraseña" required>
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+    <div class="container" id="game-container">
+        <button id="logout-btn" onclick="logout()">Cerrar Sesión</button> 
+        <h1>Juego de Matemáticas</h1>
+        <div id="exercise-container">
+            <!-- Aqui se mostrará el ejercicio -->
+        </div>
+        <div id="number-buttons" style="display:none;">
+            <!-- Botones con diferentes números -->
+            <button onclick="selectNumber(1)">1</button>
+            <button onclick="selectNumber(2)">2</button>
+            <button onclick="selectNumber(3)">3</button>
+        </div>
+        <div class="answer-container"> <!-- Contenedor adicional para respuesta y botón Verificar -->
+            <input type="text" id="answer" placeholder="Ingrese su respuesta">
+            <button onclick="checkAnswer()">Verificar</button>
+        </div>
+        <p id="result-message"></p>
+        <div class="button-container"> <!-- Contenedor adicional para botón Nuevo ejercicio -->
+            <button onclick="generateExercise()">Nuevo Ejercicio</button>
+            <button onclick="showExerciseScreen()">Ir a Ejercicios (+,-,x)</button> <!-- Agregado -->
+        </div>
+    </div>
+    
+    <script>
+        // Variables
+            let currentExercise = {};
+            const levels = ['Fácil', 'Medio', 'Difícil'];
+            const answerInput = document.getElementById('answer');
+            const resultMessage = document.getElementById('result-message');
+            const numberButtons = document.getElementById('number-buttons');
+
+            // Función para generar un nuevo ejercicio
+            function generateExercise() {
+                const level = levels[Math.floor(Math.random() * levels.length)];
+                const num1 = Math.floor(Math.random() * 10);
+                const num2 = Math.floor(Math.random() * 10);
+
+                switch (level) {
+                    case 'Fácil':
+                        currentExercise = { question: `${num1} + ${num2}`, answer: num1 + num2 };
+                        break;
+                    case 'Medio':
+                        currentExercise = { question: `${num1} - ${num2}`, answer: num1 - num2 };
+                        break;
+                    case 'Difícil':
+                        //currentExercise = { question: `${num1} * ${num2}`, answer: num1 * num2 };
+                        break;
+                }
+
+                document.getElementById('exercise-container').innerText = `Resuelve: ${currentExercise.question}`;
+                answerInput.value = '';
+                resultMessage.innerText = '';
+                resultMessage.style.display = 'block'; // Evita que el contenedor se expanda
+
+                // Actualizar números en los botones
+                const numbers = [currentExercise.answer - 1, currentExercise.answer, currentExercise.answer + 1];
+                for (let i = 0; i < 3; i++) {
+                    numberButtons.children[i].innerText = numbers[i];
+                }
+
+                document.querySelector('button[onclick="checkAnswer()"]').style.display = 'block'; // Muestra el botón de verificar respuesta
+            }
+
+            // Función para seleccionar un número de los botones
+            function selectNumber(selectedNumber) {
+                const selectedButton = numberButtons.querySelector(`button:nth-child(${selectedNumber})`);
+                answerInput.value = selectedButton.innerText;
+            }
+
+            // Función para verificar la respuesta
+            function checkAnswer() {
+                const userAnswer = parseInt(answerInput.value);
+
+                if (!isNaN(userAnswer)) {
+                    if (userAnswer === currentExercise.answer) {
+                        resultMessage.innerText = '¡Excelente! Respuesta correcta.  😊';
+                    } else {
+                        resultMessage.innerText = 'Ups! Respuesta incorrecta. ¡Inténtalo de nuevo! ☹️';
+                    }
+                } else {
+                    resultMessage.innerText = 'Por favor, ingresa un número válido.  😕';
+                }
+            }
+
+            // Variables de autenticación
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const authContainer = document.getElementById('auth-container');
+            const gameContainer = document.querySelector('.container');
+            const logoutButton = document.getElementById('logout-button');
+
+            // Inicialmente, esconde el juego hasta que el usuario inicie sesión
+            gameContainer.style.display = 'none';
+
+            // Evento de registro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('register-username').value;
+                const password = document.getElementById('register-password').value;
+
+                // Almacenar usuario
+                localStorage.setItem(username, password);
+                alert('Usuario registrado con éxito. Por favor, inicie sesión.');
+            });
+
+            // Función para cerrar sesión
+            function logout() {
+                localStorage.removeItem('current_user');
+                localStorage.removeItem('currentExercise'); // Eliminar ejercicio actual al cerrar sesión
+                authContainer.style.display = 'block';
+                gameContainer.style.display = 'none';
+                document.getElementById('exercise-container').innerText = ''; // Limpiar contenido del contenedor de ejercicio
+            }
+
+            // Evento de inicio de sesión
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+
+                // Verificar usuario
+                if (localStorage.getItem(username) === password) {
+                    authContainer.style.display = 'none';
+                    gameContainer.style.display = 'block';
+                    document.getElementById('number-buttons').style.display = 'none'; // Oculta los botones de números
+                    document.querySelector('button[onclick="generateExercise()"]').style.display = 'none'; // Oculta el botón de nuevo ejercicio
+                    document.querySelector('button[onclick="showExerciseScreen()"]').style.display = 'block'; // Muestra el botón Ir a Ejercicios
+
+                    // Oculta los elementos no deseados
+                    document.getElementById('exercise-container').style.display = 'block'; // Muestra el contenedor de ejercicio
+                    document.getElementById('answer').style.display = 'block'; // Muestra el campo de respuesta
+                    document.getElementById('result-message').style.display = 'block'; // Muestra el mensaje de resultado
+                    document.querySelector('.container > button:nth-child(6)').style.display = 'none'; // Oculta el botón "Nuevo Ejercicio"
+
+                    // Almacena el usuario actual en el almacenamiento local
+                    localStorage.setItem('current_user', username);
+                } else {
+                    alert('Usuario o contraseña incorrecta.');
+                }
+            });
+
+            // Función para mostrar la pantalla de ejercicios
+            function showExerciseScreen() {
+                document.getElementById('number-buttons').style.display = 'block';
+                document.querySelector('button[onclick="showExerciseScreen()"]').style.display = 'none';
+                document.querySelector('button[onclick="generateExercise()"]').style.display = 'block';
+                generateExercise();
+            }
+        // Generador del ejercicio y asignación a variable global currentExercise
+    </script>
+</body>
+</html>
